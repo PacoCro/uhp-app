@@ -10,6 +10,9 @@ namespace App;
 
 use App\DB;
 
+/*
+ * This class handles all user tracking/logging
+ */
 class Tracker
 {
 
@@ -17,11 +20,19 @@ class Tracker
     private $user;
     private $calldeByJs;
 
+
+    /*
+     * Tracking flow control.
+     */
     public function __construct($calledByJs = false)
     {
-        $this->extractTrackingData();
+        // Find out if tracker is called by page refresh, or JavaScript call.
         $this->calldeByJs = $calledByJs;
 
+        // Collect data about the visitor.
+        $this->extractTrackingData();
+
+        // Check if this is request is coming from existing user or new user
         $userExists = $this->userExists();
 
         if (!$userExists) {
@@ -31,6 +42,9 @@ class Tracker
         }
     }
 
+    /*
+     * Gather all data about the user.
+     */
     private function extractTrackingData() {
 
         $this->trackingData = array(
@@ -46,6 +60,9 @@ class Tracker
     }
 
 
+    /*
+     * Check if visitor that is sending requests is existing or new
+     */
     private function userExists() {
 
         $trackingData = $this->trackingData;
@@ -64,6 +81,7 @@ class Tracker
 
             $this->user = $users[0];
 
+            // If same visitor came to the site 24h after initial request, consider him as new visitor
             if(strtotime($this->user['itime']) < (time() - 86400)) {
 
                 return false;
@@ -78,6 +96,10 @@ class Tracker
 
     }
 
+
+    /**
+     * For new users, insert tracking data into the database.
+     */
     private function insertTrackingdata() {
 
         $trackingData = $this->trackingData;
@@ -101,6 +123,9 @@ class Tracker
     }
 
 
+    /*
+     * Edit user data for already existing user requests.
+     */
     public function updateTrackingData() {
 
         $trackingData = $this->trackingData;

@@ -8,8 +8,11 @@
 
 use App\Tracker;
 
+/**
+ * Router/middleware part of the logic which routs the request
+ * whether it is coming from admin panel or from visitor on frontpage
+ */
 if(!isset($isAdmin)) {
-
     // Loaded when visited by non-admin user
 
     function __autoload($class) {
@@ -19,6 +22,7 @@ if(!isset($isAdmin)) {
         require_once($class);
     }
 
+    // Check if request came via JS script
     if(!isset($_POST['js'])) {
         $calledByJs = false;
     } else {
@@ -28,7 +32,6 @@ if(!isset($isAdmin)) {
     new Tracker($calledByJs);
 
 } else {
-
     // Loaded when visited from admin portal
 
     function __autoload($class) {

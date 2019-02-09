@@ -10,6 +10,10 @@ namespace App;
 
 use App\Config\AppConfig;
 
+
+/*
+ * Class to connect to the database.
+ */
 class DB
 {
     static private $PDOInstance;

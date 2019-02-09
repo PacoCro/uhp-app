@@ -10,6 +10,7 @@ $isAdmin = true;
 
 include realpath('../../') . '/App/Middleware/preload.php';
 
+// This could go into separate class that handles admin panel if there was more time
 $connection = new \App\DB();
 $db = $connection->getDB();
 
@@ -62,10 +63,7 @@ $users = $stmt->fetchAll();
         }
         ?>
     </table>
-
 </div>
-
-
 
 </body>
 </html>

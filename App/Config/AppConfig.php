@@ -13,6 +13,9 @@ class AppConfig
 
     private $config;
 
+    /*
+     * Main config of the application
+     */
     public function __construct()
     {
         $this->config = array(
